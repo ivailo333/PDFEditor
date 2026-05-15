@@ -1,0 +1,12 @@
+build/
+.qtcreator/
+*.user
+*.pro.user
+*.obj
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.o
+*.a
+*.log
