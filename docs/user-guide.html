@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8">
+  <title>PDFEditor - Ръководство за потребителя</title>
+  <style>
+    @page { size: A4; margin: 18mm; }
+    body {
+      color: #1f2933;
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 11pt;
+      line-height: 1.5;
+    }
+    h1 { color: #111827; font-size: 26pt; margin: 0 0 8mm; }
+    h2 { border-bottom: 1px solid #d0d7de; color: #0f172a; font-size: 17pt; margin-top: 9mm; padding-bottom: 2mm; }
+    h3 { color: #1f2937; font-size: 13pt; margin-top: 6mm; }
+    table { border-collapse: collapse; margin: 4mm 0; width: 100%; }
+    th, td { border: 1px solid #d0d7de; padding: 6px 8px; text-align: left; vertical-align: top; }
+    th { background: #f3f4f6; }
+    code { font-family: "Cascadia Mono", Consolas, monospace; }
+    .muted { color: #64748b; }
+  </style>
+</head>
+<body>
+  <h1>PDFEditor<br><span class="muted">Ръководство за крайния потребител</span></h1>
+
+  <h2>1. Какво представлява приложението</h2>
+  <p>
+    PDFEditor е приложение за работа с PDF документи. С него можете да създадете нов PDF файл, да отворите съществуващ
+    PDF, да добавите текстови полета върху страниците и да запишете резултата като нов PDF файл.
+  </p>
+
+  <h2>2. Основни бутони</h2>
+  <table>
+    <tr><th>Бутон</th><th>Описание</th></tr>
+    <tr><td><strong>New</strong></td><td>Създава нов празен PDF документ.</td></tr>
+    <tr><td><strong>Open</strong></td><td>Отваря съществуващ PDF файл.</td></tr>
+    <tr><td><strong>Save As</strong></td><td>Записва документа като нов PDF файл.</td></tr>
+    <tr><td><strong>Previous / Next</strong></td><td>Преминава към предишна или следваща страница.</td></tr>
+    <tr><td><strong>- / + / 100%</strong></td><td>Управлява мащаба на прегледа.</td></tr>
+    <tr><td><strong>Edit</strong></td><td>Включва режим за създаване и редактиране на текстови полета.</td></tr>
+    <tr><td><strong>Add Page</strong></td><td>Добавя нова празна страница към новосъздаден PDF.</td></tr>
+    <tr><td><strong>Clear Page</strong></td><td>Премахва текстовите полета от текущата страница.</td></tr>
+  </table>
+
+  <h2>3. Създаване на нов PDF</h2>
+  <ol>
+    <li>Натиснете <strong>New</strong>.</li>
+    <li>Ще се появи празна A4 страница.</li>
+    <li>Ако искате още страници, натиснете <strong>Add Page</strong>.</li>
+    <li>Използвайте <strong>Previous</strong> и <strong>Next</strong>, за да сменяте страниците.</li>
+    <li>Когато сте готови, натиснете <strong>Save As</strong>.</li>
+  </ol>
+
+  <h2>4. Добавяне и редактиране на текст</h2>
+  <ol>
+    <li>Натиснете <strong>Edit</strong>.</li>
+    <li>Изберете шрифт от списъка с шрифтове.</li>
+    <li>Изберете големина на текста от полето с точки, например <strong>12 pt</strong>.</li>
+    <li>При нужда включете <strong>B</strong> за получер, <strong>I</strong> за наклонен или <strong>U</strong> за подчертан текст.</li>
+    <li>Кликнете върху страницата, където искате да пишете.</li>
+    <li>Ще се появи текстово поле. Въведете текста директно в него.</li>
+    <li>Натиснете <strong>Ctrl+Enter</strong>, <strong>Esc</strong> или кликнете извън полето, за да приключите редакцията.</li>
+  </ol>
+
+  <h2>5. Редактиране на вече добавен текст</h2>
+  <ul>
+    <li>За да редактирате текст, включете <strong>Edit</strong> и направете двоен клик върху текстовото поле.</li>
+    <li>За да преместите текст, кликнете върху полето и го издърпайте с мишката.</li>
+    <li>За да изтриете текстово поле, изберете го и натиснете <strong>Delete</strong>.</li>
+    <li>За да изтриете всички текстови полета от текущата страница, натиснете <strong>Clear Page</strong>.</li>
+  </ul>
+
+  <h2>6. Форматиране на текста</h2>
+  <table>
+    <tr><th>Контрола</th><th>Какво прави</th></tr>
+    <tr><td>Списък с шрифтове</td><td>Избира вида на шрифта.</td></tr>
+    <tr><td>Размер в точки</td><td>Избира големината на текста.</td></tr>
+    <tr><td><strong>B</strong></td><td>Прави текста получер.</td></tr>
+    <tr><td><strong>I</strong></td><td>Прави текста наклонен.</td></tr>
+    <tr><td><strong>U</strong></td><td>Подчертава текста.</td></tr>
+  </table>
+  <p>
+    Текстът е черен по подразбиране.
+  </p>
+
+  <h2>7. Отваряне и редактиране на съществуващ PDF</h2>
+  <ol>
+    <li>Натиснете <strong>Open</strong>.</li>
+    <li>Изберете PDF файл.</li>
+    <li>Включете <strong>Edit</strong> и добавете текстови полета върху страницата.</li>
+    <li>Натиснете <strong>Save As</strong>, за да запишете резултата като нов PDF файл.</li>
+  </ol>
+  <p>
+    За записване на редакции върху съществуващи PDF файлове е нужна QPDF настройка. Ако QPDF не е настроен, приложението
+    ще покаже съобщение. Създаването на нов PDF и записът му работят чрез Qt PDF.
+  </p>
+
+  <h2>8. Чести проблеми</h2>
+  <h3>PDF не се отваря</h3>
+  <p>Проверете дали файлът е валиден PDF и дали Qt PDF модулът е инсталиран за избрания Qt Kit.</p>
+
+  <h3>Не мога да запиша редакции върху съществуващ PDF</h3>
+  <p>Настройте QPDF чрез променливата <code>QPDF_ROOT</code> и стартирайте отново qmake/build.</p>
+
+  <h3>Не виждам текстовото поле</h3>
+  <p>Уверете се, че е включен режим <strong>Edit</strong>, след което кликнете върху видимата страница.</p>
+</body>
+</html>

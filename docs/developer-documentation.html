@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8">
+  <title>PDFEditor - Документация за програмиста</title>
+  <style>
+    @page { size: A4; margin: 18mm; }
+    body {
+      color: #1f2933;
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 11pt;
+      line-height: 1.45;
+    }
+    h1 { color: #111827; font-size: 26pt; margin: 0 0 8mm; }
+    h2 { border-bottom: 1px solid #d0d7de; color: #0f172a; font-size: 17pt; margin-top: 9mm; padding-bottom: 2mm; }
+    h3 { color: #1f2937; font-size: 13pt; margin-top: 6mm; }
+    code, pre { font-family: "Cascadia Mono", Consolas, monospace; }
+    pre { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 6px; padding: 8px; white-space: pre-wrap; }
+    table { border-collapse: collapse; margin: 4mm 0; width: 100%; }
+    th, td { border: 1px solid #d0d7de; padding: 6px 8px; text-align: left; vertical-align: top; }
+    th { background: #f3f4f6; }
+    .muted { color: #64748b; }
+  </style>
+</head>
+<body>
+  <h1>PDFEditor<br><span class="muted">Документация за програмиста</span></h1>
+
+  <h2>1. Обща архитектура</h2>
+  <p>
+    PDFEditor е Qt Widgets приложение на C++17 за създаване, четене, визуално редактиране и запис на PDF документи.
+    Проектът е структуриран като qmake проект за Qt Creator чрез файла <code>PDFEditor.pro</code>.
+  </p>
+  <p>
+    Приложението е направено с условни backend-и, за да може проектът да се отваря и компилира дори когато някои
+    външни зависимости липсват. Ако Qt PDF е наличен, се използва реалният viewer. Ако QPDF е настроен, редакции върху
+    съществуващи PDF файлове се записват като PDF annotation обекти.
+  </p>
+
+  <h2>2. Основни файлове</h2>
+  <table>
+    <tr><th>Файл</th><th>Роля</th></tr>
+    <tr><td><code>PDFEditor.pro</code></td><td>Qt Creator/qmake проект. Проверява за Qt PDF и QPDF.</td></tr>
+    <tr><td><code>src/main.cpp</code></td><td>Стартира QApplication и главния прозорец.</td></tr>
+    <tr><td><code>src/MainWindow.*</code></td><td>Главен прозорец, toolbar, действия и свързване на UI контролите.</td></tr>
+    <tr><td><code>src/PdfDocumentView.h</code></td><td>Публичен интерфейс на PDF viewer/editor widget-а.</td></tr>
+    <tr><td><code>src/PdfDocumentViewQt.cpp</code></td><td>Реална имплементация с Qt PDF, QTextEdit полета и QPdfWriter.</td></tr>
+    <tr><td><code>src/PdfDocumentViewStub.cpp</code></td><td>Fallback имплементация, когато Qt PDF липсва.</td></tr>
+    <tr><td><code>src/TextEdit.h</code></td><td>Модел за текстово поле: страница, правоъгълник, текст, шрифт и цвят.</td></tr>
+    <tr><td><code>src/QpdfBackend.*</code></td><td>Запис на редакции към съществуващ PDF чрез QPDF.</td></tr>
+    <tr><td><code>src/QpdfBackendStub.cpp</code></td><td>Fallback, когато QPDF не е конфигуриран.</td></tr>
+  </table>
+
+  <h2>3. Зависимости</h2>
+  <h3>3.1 Задължителни</h3>
+  <ul>
+    <li>Qt 6</li>
+    <li>Qt Widgets</li>
+    <li>C++17 compiler</li>
+  </ul>
+
+  <h3>3.2 За преглед и създаване на PDF</h3>
+  <ul>
+    <li>Qt PDF module</li>
+  </ul>
+
+  <h3>3.3 За редактиране на съществуващ PDF</h3>
+  <ul>
+    <li>QPDF development package</li>
+    <li>Environment variable <code>QPDF_ROOT</code>, сочещ към папка с <code>include/qpdf/QPDF.hh</code> и <code>lib/</code></li>
+  </ul>
+
+  <h2>4. Build с Qt Creator</h2>
+  <ol>
+    <li>Отворете <code>PDFEditor.pro</code>.</li>
+    <li>Изберете Qt 6 Desktop Kit.</li>
+    <li>Ако искате QPDF функционалност, задайте <code>QPDF_ROOT</code> в <code>Projects -> Build Environment</code>.</li>
+    <li>Изпълнете <code>Build -> Run qmake</code>.</li>
+    <li>Изпълнете <code>Build -> Rebuild Project</code>.</li>
+  </ol>
+
+  <pre>QPDF_ROOT=C:/vcpkg/installed/x64-mingw-dynamic</pre>
+
+  <h2>5. Условни модули</h2>
+  <p>
+    В <code>PDFEditor.pro</code> се използва <code>qtHaveModule(pdf)</code>. Ако Qt PDF е наличен, се компилира
+    <code>PdfDocumentViewQt.cpp</code>. Ако не е наличен, се компилира <code>PdfDocumentViewStub.cpp</code>.
+  </p>
+  <p>
+    За QPDF се проверява дали съществува <code>$$QPDF_ROOT/include/qpdf/QPDF.hh</code>. Ако файлът е наличен,
+    се компилира <code>QpdfBackend.cpp</code>; иначе се използва <code>QpdfBackendStub.cpp</code>.
+  </p>
+
+  <h2>6. Текстов редактор</h2>
+  <p>
+    Текстът в PDF страницата се моделира чрез структурата <code>TextEdit</code>. Тя пази:
+  </p>
+  <ul>
+    <li><code>page</code> - индекс на страницата;</li>
+    <li><code>pageRect</code> - позиция и размер в координатите на PDF страницата;</li>
+    <li><code>pageSizePoints</code> - размер на страницата в PDF points;</li>
+    <li><code>text</code> - съдържание;</li>
+    <li><code>font</code> - шрифт, големина, bold, italic, underline;</li>
+    <li><code>color</code> - цвят, по подразбиране черен.</li>
+  </ul>
+  <p>
+    При активен режим <strong>Edit</strong> клик върху страницата създава текстова кутия. За активното поле се показва
+    child <code>QTextEdit</code>, което позволява директно въвеждане и редактиране на текста.
+  </p>
+
+  <h2>7. Запис на PDF</h2>
+  <h3>7.1 Нов PDF</h3>
+  <p>
+    Новосъздаден документ се записва чрез <code>QPdfWriter</code>. Всички текстови кутии се рисуват върху A4 страници
+    с <code>QPainter::drawText</code>, като се запазват шрифт, големина и стил.
+  </p>
+
+  <h3>7.2 Съществуващ PDF</h3>
+  <p>
+    При отворен съществуващ PDF записът се делегира на <code>QpdfBackend</code>. Реалната имплементация добавя
+    <code>/FreeText</code> annotation обекти с appearance stream. Това запазва оригиналните страници и добавя редакциите
+    като PDF структура.
+  </p>
+
+  <h2>8. Насоки за бъдещо развитие</h2>
+  <ul>
+    <li>Добавяне на resize handles за текстовите кутии.</li>
+    <li>Поддръжка на rich text с различни стилове в една и съща кутия.</li>
+    <li>Поддръжка на цветове за текста.</li>
+    <li>Запис и повторно зареждане на редактирани annotations.</li>
+    <li>Инструменти за undo/redo.</li>
+  </ul>
+</body>
+</html>
